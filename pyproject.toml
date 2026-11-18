@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mcp-eu-funding"
+version = "0.1.0"
+description = "EU Funding & Tenders Portal for AI assistants: Horizon Europe, Digital Europe, LIFE, EIC calls, topic conditions, budgets, deadlines and EU tenders"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Oleg Sher" }]
+keywords = ["mcp", "horizon-europe", "eu-funding", "grants", "funding-tenders-portal", "model-context-protocol"]
+dependencies = ["fastmcp>=2.0", "httpx>=0.27"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+mcp-eu-funding = "mcp_eu_funding.server:main"
+
+[project.urls]
+Repository = "https://github.com/olegsher-ds-2025/mcp-eu-funding"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_eu_funding"]
+
+[tool.ruff]
+line-length = 140
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = ["live: hits the EU API (run with -m live)"]
+addopts = "-m 'not live'"
